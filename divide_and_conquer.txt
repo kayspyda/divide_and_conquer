@@ -1,0 +1,177 @@
+//Author Kayspyda
+//Knust Computer Science Department
+
+#include <iostream>
+#include <time.h>
+#include <string>
+#include <stdio.h>
+#include <math.h>
+#include <sstream>
+
+using namespace std;
+
+
+int num1, num2;
+
+
+
+
+//Function to get the length of the digit entered
+int count_numbers ( int num) {
+   int count =0;
+   while (num !=0) {
+      count++;
+      num/=10;
+   }
+   return count;
+}
+
+
+bool notEven(int number){
+
+  int rem = number % 2 ;
+  if (rem != 0){
+    return true;
+  }
+
+  else {
+    return false;
+  }
+
+}
+
+
+
+//function to half the number that we enter
+string first_half(string number_to_half,int total_length){
+
+    std::string str = number_to_half;
+
+
+int mid_length = total_length/2;
+std::string my_half = str.substr(0,mid_length);
+
+return my_half;
+}
+
+string rem_half(string number_to_half,int total_length){
+
+std::string str = number_to_half;
+int mid_length = total_length/2;
+std::string last_half = str.substr(mid_length,total_length);
+
+return last_half;
+}
+//code to convert string to integer
+int string_to_int (string num) {
+std::string str = num;
+stringstream ss(str); // Could of course also have done ss("1234") directly.
+
+  int i;
+  ss >> i;
+
+  return i;
+}
+
+//code to convert Integer to String
+string int_to_string(int num){
+string int_to_change;
+
+    stringstream ss; // now we can make a new ss
+    ss << num;
+    int_to_change = ss.str();
+return int_to_change;
+}
+
+
+
+
+
+//function to implement our divide and conquer algorithm
+
+int divide_and_conquer (string my_digit_string1,string my_digit_string2, int length_of_num1,int length_of_num2) {
+
+
+
+string num1a = first_half(my_digit_string1,length_of_num1);
+string num1b = rem_half(my_digit_string1,length_of_num1);
+
+
+string num2a = first_half(my_digit_string2,length_of_num2);
+string num2b = rem_half(my_digit_string2,length_of_num2);
+
+//convert strings to int back for arithmetic operations
+
+ int num1aa= string_to_int (num1a);
+ int num1bb= string_to_int (num1b);
+int num2aa= string_to_int (num2a);
+int num2bb= string_to_int (num2b);
+
+
+
+
+
+int var1 = num1aa * num2aa;
+int var2a = num1aa * num2bb;
+int var2b = num1bb * num2aa;
+int var3 = num1bb * num2bb;
+
+var1 = var1 * pow(10,length_of_num1);
+
+int mid_length = length_of_num2/2;
+var2b= var2b * pow(10,mid_length);
+
+int var2 = var2a * var2b;
+int ans = var1 + var2 + var3 ;
+
+return ans;
+
+}
+
+
+int main()
+{
+    cout <<"Enter  Even  Digit"<< endl;
+    cin>> num1;
+
+    while (notEven(num1)){
+
+
+        cout <<"Please Enter  Even  Digit"<< endl;
+
+cin>> num1;
+    }
+
+
+    cout <<"Enter Next Even Digit"<< endl;
+    cin>> num2;
+
+
+    while (notEven(num2)){
+
+
+        cout <<"Please Enter  Even  Digit"<< endl;
+
+cin>> num2;
+    }
+
+  int length_of_num1 = count_numbers (num1);
+  int length_of_num2 =  count_numbers (num2);
+
+string my_digit_string1=int_to_string(num1);
+string my_digit_string2=int_to_string(num2);
+
+
+
+
+int my_ans = divide_and_conquer (my_digit_string1,my_digit_string2,length_of_num1,length_of_num2);
+cout<< my_ans;
+
+
+
+
+
+
+
+    return 0;
+}
